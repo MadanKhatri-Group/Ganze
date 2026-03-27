@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard • Ganze{% endblock %}
+
+{% block content %}
+  <section class="dash">
+    <div class="dash__header">
+      <div>
+        <h1 class="dash__title">Hey, {{ current_user.name }}</h1>
+        <p class="dash__sub">This page is protected — you can only see it when logged in.</p>
+      </div>
+      <div class="dash__badge">Signed in as {{ current_user.email }}</div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2 class="card__title">Today’s tasks</h2>
+        <p class="card__text">A tiny list that saves to a local JSON file.</p>
+
+        <form class="taskbar" method="post" action="{{ url_for('dashboard') }}">
+          <input type="hidden" name="action" value="add_task" />
+          <input class="field__input" type="text" name="task_text" placeholder="Add a task…" maxlength="80" />
+          <button class="btn btn--primary" type="submit">Add</button>
+        </form>
+
+        {% if tasks and tasks|length %}
+          <div class="tasks">
+            {% for task in tasks %}
+              <form class="task {% if task.done %}task--done{% endif %}" method="post" action="{{ url_for('dashboard') }}">
+                <input type="hidden" name="action" value="toggle_task" />
+                <input type="hidden" name="task_id" value="{{ task.id }}" />
+                <button class="task__check" type="submit" aria-label="Toggle task"></button>
+                <div class="task__text {% if task.done %}task__text--done{% endif %}">
+                  {{ task.text }}
+                </div>
+              </form>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="card__meta">No tasks yet — add one above.</div>
+        {% endif %}
+      </div>
+
+      <div class="card">
+        <h2 class="card__title">Password generator</h2>
+        <p class="card__text">A quick tool for making a strong password.</p>
+
+        <form class="form" method="post" action="{{ url_for('dashboard') }}">
+          <input type="hidden" name="action" value="gen_password" />
+          <label class="field">
+            <span class="field__label">Length</span>
+            <input class="field__input" type="number" name="length" min="8" max="64" value="14" />
+          </label>
+
+          <label class="check">
+            <input class="check__box" type="checkbox" name="numbers" checked />
+            <span class="check__text">Include numbers</span>
+          </label>
+
+          <label class="check">
+            <input class="check__box" type="checkbox" name="symbols" checked />
+            <span class="check__text">Include symbols</span>
+          </label>
+
+          <button class="btn btn--primary btn--full" type="submit">Generate</button>
+        </form>
+
+        {% if generated_password %}
+          <div class="result" role="status">
+            <div class="result__label">Generated</div>
+            <div class="result__value">{{ generated_password }}</div>
+            <div class="card__meta">Tip: copy it and store it safely.</div>
+          </div>
+        {% else %}
+          <div class="card__meta">Uses a secure random generator on the server.</div>
+        {% endif %}
+      </div>
+
+      <div class="card card--accent">
+        <h2 class="card__title">Your connection</h2>
+        <p class="card__text">Shows your IP address and a rough location (no API keys).</p>
+
+        <div class="info">
+          <div class="info__row">
+            <div class="info__key">IP</div>
+            <div class="info__val">{{ client_ip or 'Unknown' }}</div>
+          </div>
+
+          <div class="info__row">
+            <div class="info__key">Location</div>
+            {% if location %}
+              <div class="info__val">{{ location.city }}{% if location.city and (location.region or location.country) %}, {% endif %}{{ location.region }}{% if location.region and location.country %}, {% endif %}{{ location.country }}</div>
+            {% else %}
+              <div class="info__val">Local / unavailable</div>
+            {% endif %}
+          </div>
+
+          {% if location and location.isp %}
+            <div class="info__row">
+              <div class="info__key">Network</div>
+              <div class="info__val">{{ location.isp }}</div>
+            </div>
+          {% endif %}
+        </div>
+
+        <h3 class="mini">Account</h3>
+        <div class="card__meta">Created: {{ current_user.created_at.strftime('%b %d, %Y') }}</div>
+        <p class="card__text">Your password is stored as a secure hash (not plain text).</p>
+
+        <form method="post" action="{{ url_for('logout') }}">
+          <button class="btn btn--ghost" type="submit">Log out</button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}
