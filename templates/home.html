@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Ganze{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero__card">
+      <h1 class="hero__title">Keep little ideas from slipping away.</h1>
+      <p class="hero__lead">
+        Ganze is a tiny account-based app where you can log in and access your personal dashboard.
+        It’s intentionally simple — clean, responsive, and friendly.
+      </p>
+
+      <div class="hero__actions">
+        {% if current_user.is_authenticated %}
+          <a class="btn btn--primary" href="{{ url_for('dashboard') }}">Go to dashboard</a>
+        {% else %}
+          <a class="btn btn--primary" href="{{ url_for('signup') }}">Create an account</a>
+          <a class="btn btn--ghost" href="{{ url_for('login') }}">I already have one</a>
+        {% endif %}
+      </div>
+
+      <div class="hero__stats">
+        <div class="pill">Mobile friendly</div>
+        <div class="pill">Protected routes</div>
+        <div class="pill">JSON + secure passwords</div>
+      </div>
+    </div>
+
+    <div class="showcase" aria-hidden="true">
+      <div class="showcase__card">
+        <div class="showcase__line"></div>
+        <div class="showcase__line"></div>
+        <div class="showcase__line short"></div>
+      </div>
+      <div class="showcase__card alt">
+        <div class="showcase__dot"></div>
+        <div class="showcase__dot"></div>
+        <div class="showcase__dot"></div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
