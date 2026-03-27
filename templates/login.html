@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Log in • Sneech Notes{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h1 class="panel__title">Log in</h1>
+    <p class="panel__sub">Welcome back. Your dashboard is waiting.</p>
+
+    <form class="form" method="post" action="{{ url_for('login') }}">
+      <label class="field">
+        <span class="field__label">Email</span>
+        <input class="field__input" type="email" name="email" autocomplete="email" required value="{{ email or '' }}" />
+      </label>
+
+      <label class="field">
+        <span class="field__label">Password</span>
+        <input class="field__input" type="password" name="password" autocomplete="current-password" required />
+      </label>
+
+      <button class="btn btn--primary btn--full" type="submit">Log in</button>
+
+      <div class="panel__hint">
+        New here? <a class="link" href="{{ url_for('signup') }}">Create an account</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
