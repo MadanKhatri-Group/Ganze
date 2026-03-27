@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Not found • Sneech Notes{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h1 class="panel__title">That page isn’t here.</h1>
+    <p class="panel__sub">Try heading back home.</p>
+    <a class="btn btn--primary" href="{{ url_for('home') }}">Go home</a>
+  </section>
+{% endblock %}
