@@ -1,6 +1,6 @@
 # Ganze: A Simple Flask App
 
-This is a small web application built with Flask. It features a complete user authentication system (signup, login, logout) and a private dashboard for logged-in users.
+This is a small web application built with Flask. It features a complete user authentication system (signup, login, logout) and a private dashboard for logged-in users.[**Click here for live demo**](https://ganze.onrender.com/)
 
 All data, including users and their tasks, is stored in a simple `data/store.json` file, so there's no need for an external database.
 
@@ -17,9 +17,13 @@ All data, including users and their tasks, is stored in a simple `data/store.jso
 
 I've created a `screenshots/` folder for you. After running the app, you can place your images there.
 
-- `home.png` (The landing page)
-- `signup.png` (The signup form)
-- `dashboard.png` (The user dashboard after logging in)
+### Screenshots
+
+- **The landing page**
+![The landing page](home.png)
+
+- **The user dashboard after logging in**
+![The user dashboard after logging in](dashbord.png)
 
 ## How to Run
 
